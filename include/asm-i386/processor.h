@@ -300,6 +300,7 @@ struct i387_fxsave_struct {
 	long	st_space[32];	/* 8*16 bytes for each FP-reg = 128 bytes */
 	long	xmm_space[32];	/* 8*16 bytes for each XMM-reg = 128 bytes */
 	long	padding[56];
+    int dummy[0] __attribute__ ((aligned (16)));
 } __attribute__ ((aligned (16)));
 
 struct i387_soft_struct {

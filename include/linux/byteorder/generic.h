@@ -86,8 +86,8 @@
  */
 #define cpu_to_le64 __cpu_to_le64
 #define le64_to_cpu __le64_to_cpu
-#define cpu_to_le32 __cpu_to_le32
-#define le32_to_cpu __le32_to_cpu
+#define cpu_to_le32(x) __cpu_to_le32(x)
+#define le32_to_cpu(x) __le32_to_cpu(x)
 #define cpu_to_le16 __cpu_to_le16
 #define le16_to_cpu __le16_to_cpu
 #define cpu_to_be64 __cpu_to_be64

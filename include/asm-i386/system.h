@@ -28,7 +28,7 @@ extern void FASTCALL(__switch_to(struct task_struct *prev, struct task_struct *n
 		     "popl %%esi\n\t"					\
 		     :"=m" (prev->thread.esp),"=m" (prev->thread.eip),	\
 		      "=b" (last)					\
-		     :"m" (next->thread.esp),"m" (next->thread.eip),	\
+		     :"g" (next->thread.esp),"g" (next->thread.eip),	\
 		      "a" (prev), "d" (next),				\
 		      "b" (prev));					\
 } while (0)
@@ -313,7 +313,7 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
 #define set_wmb(var, value) do { var = value; wmb(); } while (0)
 
 /* interrupt control.. */
-#define __save_flags(x)		__asm__ __volatile__("pushfl ; popl %0":"=g" (x): /* no input */)
+#define __save_flags(x)		__asm__ __volatile__("pushfl ; popl %0" : "=g" (x) /* no input */)
 #define __restore_flags(x) 	__asm__ __volatile__("pushl %0 ; popfl": /* no output */ :"g" (x):"memory", "cc")
 #define __cli() 		__asm__ __volatile__("cli": : :"memory")
 #define __sti()			__asm__ __volatile__("sti": : :"memory")

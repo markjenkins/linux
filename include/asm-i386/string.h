@@ -178,7 +178,7 @@ __asm__ __volatile__(
 	"leal -1(%%esi),%0\n"
 	"2:\ttestb %%al,%%al\n\t"
 	"jne 1b"
-	:"=g" (__res), "=&S" (d0), "=&a" (d1) :"0" (0),"1" (s),"2" (c));
+	:"=r" (__res), "=&S" (d0), "=&a" (d1) :"0" (0),"1" (s),"2" (c));
 return __res;
 }
 

@@ -441,6 +441,10 @@ int udp_sendmsg(struct sock *sk, struct msghdr *msg, int len)
 	u32 daddr;
 	u8  tos;
 	int err;
+        int (*getfrag)(const void *,
+                       char *,
+                       unsigned int,	
+                       unsigned int);
 
 	/* This check is ONLY to check for arithmetic overflow
 	   on integer(!) len. Not more! Real check will be made
@@ -560,11 +564,12 @@ back_from_confirm:
 	/* RFC1122: OK.  Provides the checksumming facility (MUST) as per */
 	/* 4.1.3.4. It's configurable by the application via setsockopt() */
 	/* (MAY) and it defaults to on (MUST). */
-
+        if (sk->no_check == UDP_CSUM_NOXMIT)
+            getfrag = udp_getfrag_nosum;
+        else
+            getfrag = udp_getfrag;
 	err = ip_build_xmit(sk,
-			    (sk->no_check == UDP_CSUM_NOXMIT ?
-			     udp_getfrag_nosum :
-			     udp_getfrag),
+			    getfrag,
 			    &ufh, ulen, &ipc, rt, msg->msg_flags);
 
 out:

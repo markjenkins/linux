@@ -64,14 +64,14 @@ typedef struct __wait_queue wait_queue_t;
 # define wq_lock_t spinlock_t
 # define WAITQUEUE_RW_LOCK_UNLOCKED SPIN_LOCK_UNLOCKED
 
-# define wq_read_lock spin_lock
-# define wq_read_lock_irqsave spin_lock_irqsave
-# define wq_read_unlock spin_unlock
-# define wq_read_unlock_irqrestore spin_unlock_irqrestore
-# define wq_write_lock_irq spin_lock_irq
-# define wq_write_lock_irqsave spin_lock_irqsave
-# define wq_write_unlock_irqrestore spin_unlock_irqrestore
-# define wq_write_unlock spin_unlock
+# define wq_read_lock(lock) spin_lock(lock)
+# define wq_read_lock_irqsave(lock, flags) spin_lock_irqsave(lock, flags)
+# define wq_read_unlock(lock) spin_unlock(lock)
+# define wq_read_unlock_irqrestore(lock, flags) spin_unlock_irqrestore(lock, flags)
+# define wq_write_lock_irq(lock) spin_lock_irq(lock)
+# define wq_write_lock_irqsave(lock, flags) spin_lock_irqsave(lock, flags)
+# define wq_write_unlock_irqrestore(lock, flags) spin_unlock_irqrestore(lock, flags)
+# define wq_write_unlock(lock) spin_unlock(lock)
 #endif
 
 struct __wait_queue_head {

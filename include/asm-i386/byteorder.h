@@ -42,8 +42,10 @@ static inline __u64 ___arch__swab64(__u64 val)
 		__u64 u;
 	} v;
 	v.u = val;
-#ifdef CONFIG_X86_BSWAP
-	asm("bswapl %0 ; bswapl %1 ; xchgl %0,%1" 
+#if defined(CONFIG_X86_BSWAP) && 0
+        /* XXX: constraint bug
+           bswap %eax ; bswap (%ecx) ; xchgl %eax,(%ecx) */
+	asm("bswap %0 ; bswap %1 ; xchgl %0,%1" 
 	    : "=r" (v.s.a), "=r" (v.s.b) 
 	    : "0" (v.s.a), "1" (v.s.b)); 
 #else

@@ -52,7 +52,7 @@
 
 #include <linux/irq.h>
 
-asmlinkage void ret_from_fork(void) __asm__("ret_from_fork");
+asmlinkage void ret_from_fork(void) /* __asm__("ret_from_fork") */ ;
 
 int hlt_counter;
 
@@ -217,7 +217,7 @@ real_mode_gdt_entries [3] =
 	0x000092000100ffffULL	/* 16-bit real-mode 64k data at 0x00000100 */
 };
 
-static struct
+struct
 {
 	unsigned short       size __attribute__ ((packed));
 	unsigned long long * base __attribute__ ((packed));

@@ -311,6 +311,10 @@ static int raw_sendmsg(struct sock *sk, struct msghdr *msg, int len)
 	u32 daddr;
 	u8  tos;
 	int err;
+        int (*getfrag)(const void *,
+                       char *,
+                       unsigned int,	
+                       unsigned int);
 
 	/* This check is ONLY to check for arithmetic overflow
 	   on integer(!) len. Not more! Real check will be made
@@ -426,8 +430,11 @@ back_from_confirm:
 	rfh.dst		= &rt->u.dst;
 	if (!ipc.addr)
 		ipc.addr = rt->rt_dst;
-	err = ip_build_xmit(sk, sk->protinfo.af_inet.hdrincl ? raw_getrawfrag :
-		       	    raw_getfrag, &rfh, len, &ipc, rt, msg->msg_flags);
+        if (sk->protinfo.af_inet.hdrincl)
+            getfrag =raw_getrawfrag;
+        else
+            getfrag = raw_getfrag;
+	err = ip_build_xmit(sk, getfrag, &rfh, len, &ipc, rt, msg->msg_flags);
 
 done:
 	if (free)

@@ -85,9 +85,13 @@ typedef struct _gpt_header {
 } __attribute__ ((packed)) gpt_header;
 
 typedef struct _gpt_entry_attributes {
+#if 0
 	u64 required_to_function:1;
 	u64 reserved:47;
         u64 type_guid_specific:16;
+#else
+        u64 required;
+#endif
 } __attribute__ ((packed)) gpt_entry_attributes;
 
 typedef struct _gpt_entry {

@@ -1,3 +1,4 @@
+#define __ASSEMBLY__
 /*
  *  linux/arch/i386/kernel/head.S -- the 32-bit startup code.
  *
@@ -41,6 +42,8 @@
  *
  * On entry, %esi points to the real-mode code as a 32-bit pointer.
  */
+.globl _start        
+_start: 
 startup_32:
 /*
  * Set segments to known values

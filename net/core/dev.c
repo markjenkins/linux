@@ -2013,8 +2013,17 @@ int dev_change_flags(struct net_device *dev, unsigned flags)
 	ret = 0;
 	if ((old_flags^flags)&IFF_UP)	/* Bit is different  ? */
 	{
-		ret = ((old_flags & IFF_UP) ? dev_close : dev_open)(dev);
+            int (*dev_func)(struct net_device *);
 
+#if 0
+		ret = ((old_flags & IFF_UP) ? dev_close : dev_open)(dev);
+#else
+            if (old_flags & IFF_UP)
+                dev_func = dev_close;
+            else
+                dev_func = dev_open;
+            ret = dev_func(dev);
+#endif
 		if (ret == 0) 
 			dev_mc_upload(dev);
 	}
